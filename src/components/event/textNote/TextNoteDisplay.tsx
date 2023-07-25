@@ -138,7 +138,7 @@ const TextNoteDisplay: Component<TextNoteDisplayProps> = (props) => {
   const publishReactionMutation = createMutation({
     mutationKey: ['publishReaction', event().id],
     mutationFn: (...params: Parameters<typeof commands.publishReaction>) =>
-      commands.publishReaction(...params).then((promeses) => Promise.allSettled(promeses.map(timeout(10000)))),
+      commands.publishReaction(...params).then((promeses) => Promise.allSettled(promeses.map(timeout(3000)))),
     onSuccess: (results) => {
       const succeeded = results.filter((res) => res.status === 'fulfilled').length;
       const failed = results.length - succeeded;
