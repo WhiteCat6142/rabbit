@@ -138,16 +138,18 @@ const TextNoteDisplay: Component<TextNoteDisplayProps> = (props) => {
   const publishReactionMutation = createMutation({
     mutationKey: ['publishReaction', event().id],
     mutationFn: (...params: Parameters<typeof commands.publishReaction>) =>
-      commands.publishReaction(...params).then((promeses) => Promise.allSettled(promeses.map(timeout(3000)))),
+      commands
+        .publishReaction(...params)
+        .then((promeses) => Promise.allSettled(promeses.map(timeout(5000)))),
     onSuccess: (results) => {
       const succeeded = results.filter((res) => res.status === 'fulfilled').length;
       const failed = results.length - succeeded;
       if (succeeded === results.length) {
-        console.log('succeeded to publish reaction');
+        console.log('Succeeded to publish a reaction');
       } else if (succeeded > 0) {
-        console.log(`failed to publish reaction on ${failed} nodes`);
+        console.warn(`failed to publish a reaction on ${failed} relays`);
       } else {
-        console.error('failed to publish reaction on all node');
+        console.error('failed to publish reaction on all relays');
       }
     },
     onError: (err) => {
@@ -163,16 +165,18 @@ const TextNoteDisplay: Component<TextNoteDisplayProps> = (props) => {
   const publishRepostMutation = createMutation({
     mutationKey: ['publishRepost', event().id],
     mutationFn: (...params: Parameters<typeof commands.publishRepost>) =>
-      commands.publishRepost(...params).then((promeses) => Promise.allSettled(promeses.map(timeout(10000)))),
+      commands
+        .publishRepost(...params)
+        .then((promeses) => Promise.allSettled(promeses.map(timeout(10000)))),
     onSuccess: (results) => {
       const succeeded = results.filter((res) => res.status === 'fulfilled').length;
       const failed = results.length - succeeded;
       if (succeeded === results.length) {
-        console.log('succeeded to publish reposts');
+        console.log('Succeeded to publish a repost');
       } else if (succeeded > 0) {
-        console.log(`failed to publish reposts on ${failed} nodes`);
+        console.warn(`Failed to publish a repost on ${failed} relays`);
       } else {
-        console.error('failed to publish reposts on all node');
+        console.error('Failed to publish a repost on all relays');
       }
     },
     onError: (err) => {
